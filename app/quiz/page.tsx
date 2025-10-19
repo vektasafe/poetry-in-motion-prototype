@@ -109,9 +109,7 @@ export default function QuizPage() {
 
   const handleSubmit = async () => {
     setIsLoading(true)
-    // Simulate API call to save preferences and generate recommendations
     await new Promise((resolve) => setTimeout(resolve, 1500))
-    // Store responses in localStorage for demo
     localStorage.setItem("userPreferences", JSON.stringify(responses))
     router.push("/recommendations")
   }
@@ -128,23 +126,23 @@ export default function QuizPage() {
   return (
     <main className="min-h-screen bg-background">
       {/* Header */}
-      <div className="border-b border-border bg-card/50">
-        <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="border-b border-border bg-card/50 sticky top-16 md:top-0 z-40">
+        <div className="mx-auto max-w-2xl px-4 py-4 sm:py-6 lg:px-8">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition mb-6"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition mb-4"
           >
             <ArrowLeft className="h-4 w-4" />
             Back
           </Link>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-accent to-accent/60 flex items-center justify-center">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-accent to-accent/60 flex items-center justify-center flex-shrink-0">
               <Sparkles className="h-5 w-5 text-accent-foreground" />
             </div>
-            <span className="font-bold text-foreground">StyleAI Quiz</span>
+            <span className="font-bold text-foreground text-sm sm:text-base">StyleAI Quiz</span>
           </div>
           <div className="space-y-2">
-            <div className="flex justify-between text-sm text-muted-foreground">
+            <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
               <span>
                 Question {currentStep + 1} of {quizSteps.length}
               </span>
@@ -160,17 +158,19 @@ export default function QuizPage() {
         </div>
       </div>
 
-      {/* Quiz Content */}
-      <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="space-y-8">
+      {/* Quiz Content - optimized for mobile with better spacing and touch targets */}
+      <div className="mx-auto max-w-2xl px-4 py-8 sm:py-12 lg:px-8">
+        <div className="space-y-6 sm:space-y-8">
           {/* Question */}
-          <div className="space-y-3">
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground">{currentQuestion.title}</h1>
-            <p className="text-lg text-muted-foreground">{currentQuestion.description}</p>
+          <div className="space-y-2 sm:space-y-3">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground leading-tight">
+              {currentQuestion.title}
+            </h1>
+            <p className="text-base sm:text-lg text-muted-foreground">{currentQuestion.description}</p>
           </div>
 
-          {/* Options */}
-          <div className="space-y-3">
+          {/* Options - larger touch targets for mobile */}
+          <div className="space-y-2 sm:space-y-3">
             {currentQuestion.options.map((option) => {
               const key = currentQuestion.id as keyof QuizResponse
               const isSelected =
@@ -188,52 +188,58 @@ export default function QuizPage() {
                       handleMultipleSelect(option)
                     }
                   }}
-                  className={`w-full p-4 rounded-lg border-2 transition text-left font-medium ${
+                  className={`w-full p-3 sm:p-4 rounded-lg border-2 transition text-left font-medium min-h-[48px] sm:min-h-[56px] flex items-center ${
                     isSelected
                       ? "border-accent bg-accent/10 text-foreground"
-                      : "border-border bg-card hover:border-accent/50 text-foreground"
+                      : "border-border bg-card hover:border-accent/50 text-foreground active:bg-secondary"
                   }`}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 w-full">
                     <div
-                      className={`h-5 w-5 rounded border-2 flex items-center justify-center transition ${
+                      className={`h-5 w-5 rounded border-2 flex items-center justify-center transition flex-shrink-0 ${
                         isSelected ? "border-accent bg-accent" : "border-border"
                       }`}
                     >
                       {isSelected && <div className="h-2 w-2 bg-accent-foreground rounded-full" />}
                     </div>
-                    <span>{option}</span>
+                    <span className="text-sm sm:text-base">{option}</span>
                   </div>
                 </button>
               )
             })}
           </div>
 
-          {/* Navigation */}
-          <div className="flex gap-4 pt-8">
+          {/* Navigation - stacked on mobile, side-by-side on desktop */}
+          <div className="flex flex-col-reverse sm:flex-row gap-3 pt-6 sm:pt-8">
             <Button
               variant="outline"
               onClick={handlePrevious}
               disabled={currentStep === 0}
-              className="gap-2 bg-transparent"
+              className="gap-2 bg-transparent w-full sm:w-auto"
             >
               <ArrowLeft className="h-4 w-4" />
-              Previous
+              <span className="sm:inline">Previous</span>
             </Button>
-            <Button onClick={handleNext} disabled={!isCurrentStepValid() || isLoading} className="ml-auto gap-2">
+            <Button
+              onClick={handleNext}
+              disabled={!isCurrentStepValid() || isLoading}
+              className="gap-2 w-full sm:w-auto sm:ml-auto"
+            >
               {isLoading ? (
                 <>
                   <div className="h-4 w-4 rounded-full border-2 border-accent-foreground border-t-transparent animate-spin" />
-                  Analyzing...
+                  <span className="hidden sm:inline">Analyzing...</span>
                 </>
               ) : currentStep === quizSteps.length - 1 ? (
                 <>
-                  Get Recommendations
+                  <span className="hidden sm:inline">Get Recommendations</span>
+                  <span className="sm:hidden">Finish</span>
                   <Sparkles className="h-4 w-4" />
                 </>
               ) : (
                 <>
-                  Next
+                  <span className="hidden sm:inline">Next</span>
+                  <span className="sm:hidden">Continue</span>
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
