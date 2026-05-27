@@ -1,30 +1,44 @@
-# Customer profile for clothing
+# Poetry in Motion (StyleAI)
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+AI-assisted fashion platform prototype: personal styling, creator marketplace, sustainability metrics, and circular fashion flows.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/jameswarren310-8340s-projects/v0-customer-profile-for-clothing)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/doFw3j0SuD9)
+Originally scaffolded with [v0.app](https://v0.app); maintained and published by [Vektasafe](https://github.com/vektasafe).
 
 ## Overview
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+- **Next.js 15** App Router + **React 19** + **Tailwind CSS 4**
+- **45** demo API routes backed by mock data in `lib/mock-data.ts`
+- Pages for shop, style quiz, creators, recommendations, trade-in, and community features
 
-## Deployment
+See **[RESEARCH.md](./RESEARCH.md)** for a full architecture and data-model analysis.
 
-Your project is live at:
+## Getting started
 
-**[https://vercel.com/jameswarren310-8340s-projects/v0-customer-profile-for-clothing](https://vercel.com/jameswarren310-8340s-projects/v0-customer-profile-for-clothing)**
+```bash
+pnpm install
+pnpm dev
+```
 
-## Build your app
+Open [http://localhost:3000](http://localhost:3000).
 
-Continue building your app on:
+```bash
+pnpm build
+pnpm start
+```
 
-**[https://v0.app/chat/projects/doFw3j0SuD9](https://v0.app/chat/projects/doFw3j0SuD9)**
+## Project structure
 
-## How It Works
+| Path | Description |
+|------|-------------|
+| `app/` | Pages and API routes |
+| `components/` | UI and mobile components |
+| `lib/` | Types, mock data, utilities |
+| `public/` | Images, PWA manifest, service worker |
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+## License
+
+Add a license file before wide public use if not already present.
+
+## Contributing
+
+Issues and pull requests welcome on the Vektasafe GitHub repository.
