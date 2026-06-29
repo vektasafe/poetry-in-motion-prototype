@@ -4,6 +4,8 @@ import { Geist } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { CartProvider } from "@/lib/cart-context"
+import { MobileHeader } from "@/components/mobile-header"
+import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 import "./globals.css"
 
 const geist = Geist({ subsets: ["latin"] })
@@ -39,7 +41,11 @@ export default function RootLayout({
       <body className={`${geist.className} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CartProvider>
-            {children}
+            <MobileHeader />
+            <main className="pb-16 md:pb-0">
+              {children}
+            </main>
+            <MobileBottomNav />
           </CartProvider>
         </ThemeProvider>
         <Analytics />

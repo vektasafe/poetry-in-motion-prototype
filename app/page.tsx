@@ -1,10 +1,14 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles, Users, Leaf, ShoppingBag, Search, Heart, Menu, Sun, Moon } from "lucide-react"
+import { ArrowRight, Sparkles, Users, Leaf, ShoppingBag, ShoppingCart, Search, Heart, Menu, User } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { useCart } from "@/lib/cart-context"
 
 export default function Home() {
+  const { totalItems } = useCart()
   return (
     <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0e0a06]">
 
@@ -58,12 +62,20 @@ export default function Home() {
             {/* Right actions */}
             <div className="flex items-center gap-3">
               <ThemeToggle />
-              <button className="p-2 rounded-full hover:bg-[#f0e8dc] dark:hover:bg-[#1a1108] transition">
+              <Link href="/search" className="p-2 rounded-full hover:bg-[#f0e8dc] dark:hover:bg-[#1a1108] transition">
                 <Search className="h-4 w-4 text-[#6b5744] dark:text-[#a89070]" />
-              </button>
-              <button className="p-2 rounded-full hover:bg-[#f0e8dc] dark:hover:bg-[#1a1108] transition">
-                <ShoppingBag className="h-4 w-4 text-[#6b5744] dark:text-[#a89070]" />
-              </button>
+              </Link>
+              <Link href="/cart" className="relative p-2 rounded-full hover:bg-[#f0e8dc] dark:hover:bg-[#1a1108] transition">
+                <ShoppingCart className="h-4 w-4 text-[#6b5744] dark:text-[#a89070]" />
+                {totalItems > 0 && (
+                  <span className="absolute top-0 right-0 h-4 w-4 bg-[#c9a84c] text-black text-xs rounded-full flex items-center justify-center font-bold">
+                    {totalItems > 9 ? "9+" : totalItems}
+                  </span>
+                )}
+              </Link>
+              <Link href="/account" className="p-2 rounded-full hover:bg-[#f0e8dc] dark:hover:bg-[#1a1108] transition">
+                <User className="h-4 w-4 text-[#6b5744] dark:text-[#a89070]" />
+              </Link>
               <Link href="/auth/login">
                 <Button variant="outline" size="sm" className="hidden sm:flex border-[#3d2c1e] text-[#3d2c1e] hover:bg-[#3d2c1e] hover:text-white dark:border-[#c9a84c] dark:text-[#c9a84c] dark:hover:bg-[#c9a84c] dark:hover:text-black">
                   Sign In
@@ -74,9 +86,6 @@ export default function Home() {
                   Get Started
                 </Button>
               </Link>
-              <button className="md:hidden p-2">
-                <Menu className="h-5 w-5 text-[#3d2c1e] dark:text-[#c9a84c]" />
-              </button>
             </div>
           </div>
         </div>

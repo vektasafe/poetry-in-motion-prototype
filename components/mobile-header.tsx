@@ -2,37 +2,43 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Menu, X, Search, ShoppingBag, User } from "lucide-react"
+import { Menu, X, Search, ShoppingCart, User } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
+import { useCart } from "@/lib/cart-context"
 
 export function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false)
+  const { totalItems } = useCart()
 
   return (
     <>
-      {/* Mobile Header - Fixed at top */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border md:hidden">
         <div className="flex items-center justify-between h-16 px-4">
           {/* Logo */}
-          <Link href="/" className="font-bold text-lg text-accent">
-            StyleAI
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/images/logos/logo-light.png" alt="Poetry In Motion" className="h-8 w-8 object-contain" />
+            <span className="font-bold text-sm text-foreground leading-tight">
+              Poetry<br />In Motion
+            </span>
           </Link>
 
-          {/* Center Search Icon */}
-          <button className="p-2 hover:bg-secondary rounded-lg transition-colors">
-            <Search className="w-5 h-5" />
-          </button>
-
           {/* Right Icons */}
-          <div className="flex items-center gap-2">
-            <Link href="/shop" className="p-2 hover:bg-secondary rounded-lg transition-colors relative">
-              <ShoppingBag className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full"></span>
+          <div className="flex items-center gap-1">
+            <Link href="/search" className="p-2 hover:bg-muted rounded-lg transition-colors">
+              <Search className="w-5 h-5" />
             </Link>
-            <Link href="/dashboard" className="p-2 hover:bg-secondary rounded-lg transition-colors">
+            <Link href="/cart" className="p-2 hover:bg-muted rounded-lg transition-colors relative">
+              <ShoppingCart className="w-5 h-5" />
+              {totalItems > 0 && (
+                <span className="absolute top-1 right-1 h-4 w-4 bg-accent text-accent-foreground text-xs rounded-full flex items-center justify-center font-bold">
+                  {totalItems > 9 ? "9+" : totalItems}
+                </span>
+              )}
+            </Link>
+            <Link href="/account" className="p-2 hover:bg-muted rounded-lg transition-colors">
               <User className="w-5 h-5" />
             </Link>
-            <button onClick={() => setIsOpen(!isOpen)} className="p-2 hover:bg-secondary rounded-lg transition-colors">
+            <button onClick={() => setIsOpen(!isOpen)} className="p-2 hover:bg-muted rounded-lg transition-colors">
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
@@ -40,29 +46,31 @@ export function MobileHeader() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <nav className="border-t border-border bg-background">
-            <div className="px-4 py-3 space-y-2">
-              <Link href="/quiz" className="block px-3 py-2 rounded-lg hover:bg-secondary transition-colors">
-                Take Style Quiz
-              </Link>
-              <Link href="/shop" className="block px-3 py-2 rounded-lg hover:bg-secondary transition-colors">
+          <nav className="border-t border-border bg-background shadow-lg">
+            <div className="px-4 py-3 space-y-1">
+              <Link href="/shop" onClick={() => setIsOpen(false)} className="block px-3 py-2.5 rounded-lg hover:bg-muted transition-colors text-sm font-medium">
                 Shop
               </Link>
-              <Link href="/creators" className="block px-3 py-2 rounded-lg hover:bg-secondary transition-colors">
+              <Link href="/creators" onClick={() => setIsOpen(false)} className="block px-3 py-2.5 rounded-lg hover:bg-muted transition-colors text-sm font-medium">
                 Creators
               </Link>
-              <Link href="/circular" className="block px-3 py-2 rounded-lg hover:bg-secondary transition-colors">
-                Circular Fashion
-              </Link>
-              <Link href="/pricing" className="block px-3 py-2 rounded-lg hover:bg-secondary transition-colors">
-                Pricing
-              </Link>
-              <Link
-                href="/community/live-sessions"
-                className="block px-3 py-2 rounded-lg hover:bg-secondary transition-colors"
-              >
+              <Link href="/community" onClick={() => setIsOpen(false)} className="block px-3 py-2.5 rounded-lg hover:bg-muted transition-colors text-sm font-medium">
                 Community
               </Link>
+              <Link href="/pricing" onClick={() => setIsOpen(false)} className="block px-3 py-2.5 rounded-lg hover:bg-muted transition-colors text-sm font-medium">
+                Pricing
+              </Link>
+              <Link href="/testimonials" onClick={() => setIsOpen(false)} className="block px-3 py-2.5 rounded-lg hover:bg-muted transition-colors text-sm font-medium">
+                Testimonials
+              </Link>
+              <div className="pt-2 border-t border-border space-y-1">
+                <Link href="/auth/login" onClick={() => setIsOpen(false)} className="block px-3 py-2.5 rounded-lg hover:bg-muted transition-colors text-sm font-medium text-accent">
+                  Sign In
+                </Link>
+                <Link href="/auth/signup" onClick={() => setIsOpen(false)} className="block px-3 py-2.5 rounded-lg bg-accent text-accent-foreground hover:bg-accent/90 transition-colors text-sm font-medium text-center">
+                  Create Account
+                </Link>
+              </div>
               <div className="pt-2 border-t border-border">
                 <ThemeToggle />
               </div>
@@ -71,7 +79,7 @@ export function MobileHeader() {
         )}
       </header>
 
-      {/* Spacer for fixed header */}
+      {/* Spacer */}
       <div className="h-16 md:hidden"></div>
     </>
   )

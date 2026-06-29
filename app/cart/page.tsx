@@ -3,7 +3,7 @@
 import { useCart } from "@/lib/cart-context"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { ArrowLeft, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react"
+import { ArrowLeft, Minus, Plus, Trash2, X } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -24,12 +24,14 @@ export default function CartPage() {
             </Link>
           </div>
         </div>
-        <div className="mx-auto max-w-7xl px-4 py-24 lg:px-8 text-center">
+        <div className="mx-auto max-w-7xl px-4 py-16 lg:px-8 text-center">
           <div className="mx-auto max-w-sm">
             <div className="mb-6 flex justify-center">
-              <div className="h-24 w-24 rounded-full bg-muted flex items-center justify-center">
-                <ShoppingBag className="h-12 w-12 text-muted-foreground" />
-              </div>
+              <img
+                src="/images/illustrations/empty/cart.png"
+                alt="Empty cart"
+                className="h-48 w-48 object-contain"
+              />
             </div>
             <h1 className="text-2xl font-bold text-foreground mb-3">Your cart is empty</h1>
             <p className="text-muted-foreground mb-8">Looks like you have not added anything yet. Start shopping and find something you love.</p>
