@@ -1,10 +1,10 @@
 "use client"
 
+import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowLeft, Heart, MessageCircle, Share2, Star } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
 
 interface Testimonial {
   id: string
@@ -113,6 +113,20 @@ const testimonials: Testimonial[] = [
 
 export default function TestimonialsPage() {
   const [testimonialsList, setTestimonialsList] = useState(testimonials)
+  const [activeFilter, setActiveFilter] = useState<"all" | "creators" | "professionals" | "students">("all")
+  const [likedOnly, setLikedOnly] = useState(false)
+
+  useEffect(() => {
+    const saved = localStorage.getItem("pim-testimonial-likes")
+    if (saved) {
+      const likedMap = new Set(JSON.parse(saved) as string[])
+      setTestimonialsList((prev) => prev.map((t) => ({ ...t, liked: likedMap.has(t.id) })))
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("pim-testimonial-likes", JSON.stringify(testimonialsList.filter((t) => t.liked).map((t) => t.id)))
+  }, [testimonialsList])
 
   const toggleLike = (id: string) => {
     setTestimonialsList((prev) =>
@@ -127,6 +141,19 @@ export default function TestimonialsPage() {
       ),
     )
   }
+
+  const visibleTestimonials = useMemo(() => {
+    return testimonialsList.filter((testimonial) => {
+      const role = testimonial.role.toLowerCase()
+      const matchesFilter =
+        activeFilter === "all" ||
+        (activeFilter === "creators" && role.includes("creator")) ||
+        (activeFilter === "professionals" && (role.includes("engineer") || role.includes("manager") || role.includes("designer") || role.includes("entrepreneur"))) ||
+        (activeFilter === "students" && role.includes("student"))
+
+      return matchesFilter && (!likedOnly || testimonial.liked)
+    })
+  }, [activeFilter, likedOnly, testimonialsList])
 
   const averageRating = (testimonialsList.reduce((sum, t) => sum + t.rating, 0) / testimonialsList.length).toFixed(1)
 
@@ -185,8 +212,35 @@ export default function TestimonialsPage() {
 
       {/* Testimonials Grid */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
+          <div className="inline-flex rounded-full border border-border bg-card p-1">
+            {[
+              ["all", "All"],
+              ["creators", "Creators"],
+              ["professionals", "Professionals"],
+              ["students", "Students"],
+            ].map(([value, label]) => (
+              <button
+                key={value}
+                onClick={() => setActiveFilter(value as any)}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                  activeFilter === value ? "bg-accent text-accent-foreground" : "text-muted-foreground"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setLikedOnly((prev) => !prev)}
+            className={`rounded-full border px-4 py-2 text-sm font-medium transition ${likedOnly ? "border-accent text-accent" : "border-border text-muted-foreground"}`}
+          >
+            {likedOnly ? "Showing liked" : "Show liked only"}
+          </button>
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonialsList.map((testimonial) => (
+          {visibleTestimonials.map((testimonial) => (
             <Card key={testimonial.id} className="overflow-hidden hover:shadow-lg transition flex flex-col">
               {/* Image */}
               {testimonial.image && (

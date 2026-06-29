@@ -1,294 +1,355 @@
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles, Users, Leaf, Palette, Award } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
-import { TestimonialsSection } from "@/components/testimonials-section"
+import { Button } from "@/components/ui/button"
+import { ArrowRight, Sparkles, Users, Leaf, ShoppingBag, Search, Heart, Menu, Sun, Moon } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0e0a06]">
+
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="sticky top-0 z-50 border-b border-[#e8e0d4] dark:border-[#2a1f14] bg-[#faf8f5]/95 dark:bg-[#0e0a06]/95 backdrop-blur supports-[backdrop-filter]:bg-[#faf8f5]/60">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-accent to-accent/60 flex items-center justify-center">
-                <Sparkles className="h-5 w-5 text-accent-foreground" />
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3">
+              <div className="relative h-10 w-10">
+                <Image
+                  src="/images/logos/logo-light.png"
+                  alt="Poetry In Motion"
+                  fill
+                  sizes="40px"
+                  className="object-contain dark:hidden"
+                />
+                <Image
+                  src="/images/logos/logo-dark.png"
+                  alt="Poetry In Motion"
+                  fill
+                  sizes="40px"
+                  className="object-contain hidden dark:block"
+                />
               </div>
-              <span className="text-xl font-bold text-foreground">StyleAI</span>
-            </div>
+              <div className="flex flex-col leading-tight">
+                <span className="text-sm font-bold tracking-widest text-[#3d2c1e] dark:text-[#c9a84c] uppercase">Poetry In Motion</span>
+                <span className="text-xs text-[#c9a84c] italic">Mali Safi.</span>
+              </div>
+            </Link>
+
+            {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
-              <Link href="#features" className="text-sm text-muted-foreground hover:text-foreground transition">
-                Features
-              </Link>
-              <Link href="#testimonials" className="text-sm text-muted-foreground hover:text-foreground transition">
-                Testimonials
-              </Link>
-              <Link href="/creators" className="text-sm text-muted-foreground hover:text-foreground transition">
-                For Creators
-              </Link>
-              <Link href="#quiz" className="text-sm text-muted-foreground hover:text-foreground transition">
-                Shop
-              </Link>
+              {[
+                { label: "Shop", href: "/shop" },
+                { label: "AI Styling", href: "/quiz" },
+                { label: "Creators", href: "/creators" },
+                { label: "Community", href: "/community/live-sessions" },
+                { label: "Sustainability", href: "/circular" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-sm text-[#6b5744] dark:text-[#a89070] hover:text-[#3d2c1e] dark:hover:text-[#c9a84c] transition font-medium"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
-            <div className="flex items-center gap-4">
+
+            {/* Right actions */}
+            <div className="flex items-center gap-3">
               <ThemeToggle />
-              <Button asChild>
-                <Link href="#quiz">Get Started</Link>
-              </Button>
+              <button className="p-2 rounded-full hover:bg-[#f0e8dc] dark:hover:bg-[#1a1108] transition">
+                <Search className="h-4 w-4 text-[#6b5744] dark:text-[#a89070]" />
+              </button>
+              <button className="p-2 rounded-full hover:bg-[#f0e8dc] dark:hover:bg-[#1a1108] transition">
+                <ShoppingBag className="h-4 w-4 text-[#6b5744] dark:text-[#a89070]" />
+              </button>
+              <Link href="/auth/login">
+                <Button variant="outline" size="sm" className="hidden sm:flex border-[#3d2c1e] text-[#3d2c1e] hover:bg-[#3d2c1e] hover:text-white dark:border-[#c9a84c] dark:text-[#c9a84c] dark:hover:bg-[#c9a84c] dark:hover:text-black">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/auth/signup">
+                <Button size="sm" className="hidden sm:flex bg-[#3d2c1e] text-white hover:bg-[#2a1f14] dark:bg-[#c9a84c] dark:text-black dark:hover:bg-[#b8973b]">
+                  Get Started
+                </Button>
+              </Link>
+              <button className="md:hidden p-2">
+                <Menu className="h-5 w-5 text-[#3d2c1e] dark:text-[#c9a84c]" />
+              </button>
             </div>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-            {/* Left Content */}
-            <div className="flex flex-col gap-6">
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-4 py-2">
-                <Sparkles className="h-4 w-4 text-accent" />
-                <span className="text-sm text-muted-foreground">AI-Powered Personal Styling</span>
+      <section className="relative overflow-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 min-h-[85vh] items-center gap-8">
+            {/* Left content */}
+            <div className="flex flex-col gap-6 py-16 lg:py-0">
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#c9a84c]/40 bg-[#c9a84c]/10 px-4 py-2">
+                <Sparkles className="h-3.5 w-3.5 text-[#c9a84c]" />
+                <span className="text-xs font-medium text-[#3d2c1e] dark:text-[#c9a84c] tracking-wider uppercase">AI-Powered Personal Styling</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
-                Your Style,{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent/60">
-                  Amplified
-                </span>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#1a1108] dark:text-[#faf8f5] leading-[1.05] tracking-tight">
+                Style that{" "}
+                <span className="text-[#c9a84c]">moves</span>{" "}
+                with you.
               </h1>
 
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
-                Stop blending in. Discover AI-curated clothing that matches your unique taste, body type, and
-                personality. Every piece tells your story—and supports African creators.
+              <p className="text-lg text-[#6b5744] dark:text-[#a89070] leading-relaxed max-w-md">
+                AI-powered fashion that understands your vibe, fits your life, and moves the world forward.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" asChild className="gap-2">
-                  <Link href="/quiz">
-                    Start Your Style Quiz
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Button size="lg" asChild className="gap-2 bg-[#3d2c1e] text-white hover:bg-[#2a1f14] dark:bg-[#c9a84c] dark:text-black dark:hover:bg-[#b8973b] rounded-full px-8">
+                  <Link href="/shop">
+                    Shop Now
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link href="#features">Learn More</Link>
+                <Button size="lg" variant="outline" asChild className="gap-2 border-[#3d2c1e] text-[#3d2c1e] dark:border-[#c9a84c] dark:text-[#c9a84c] rounded-full px-8">
+                  <Link href="/quiz">
+                    <Sparkles className="h-4 w-4" />
+                    Discover Your Style
+                  </Link>
                 </Button>
               </div>
 
-              {/* Social Proof */}
-              <div className="flex items-center gap-4 pt-4">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="h-10 w-10 rounded-full bg-gradient-to-br from-accent to-accent/60 border-2 border-background flex items-center justify-center text-sm font-semibold text-accent-foreground"
-                    >
-                      {i}
+              {/* Mini feature icons */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[#e8e0d4] dark:border-[#2a1f14]">
+                {[
+                  { icon: Sparkles, label: "AI Styling", sub: "Looks made just for you." },
+                  { icon: ShoppingBag, label: "Curated Finds", sub: "Handpicked styles you'll love." },
+                  { icon: Users, label: "Creator Community", sub: "Connect. Collaborate. Inspire." },
+                  { icon: Leaf, label: "Sustainable Fashion", sub: "Better for people, the planet." },
+                ].map((item, i) => {
+                  const Icon = item.icon
+                  return (
+                    <div key={i} className="flex flex-col gap-1">
+                      <Icon className="h-5 w-5 text-[#c9a84c]" />
+                      <span className="text-xs font-semibold text-[#3d2c1e] dark:text-[#faf8f5] uppercase tracking-wide">{item.label}</span>
+                      <span className="text-xs text-[#6b5744] dark:text-[#a89070]">{item.sub}</span>
                     </div>
-                  ))}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  <span className="font-semibold text-foreground">500+</span> trendsetters already styling
-                </div>
+                  )
+                })}
               </div>
-            </div>
 
-            {/* Right Visual */}
-            <div className="relative h-96 lg:h-full min-h-96 rounded-2xl overflow-hidden bg-gradient-to-br from-accent/20 to-accent/5 border border-border flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent" />
-              <div className="relative z-10 text-center">
-                <div className="inline-flex items-center justify-center h-24 w-24 rounded-full bg-accent/20 border border-accent/30 mb-4">
-                  <Sparkles className="h-12 w-12 text-accent" />
-                </div>
-                <p className="text-muted-foreground">AI-Curated Fashion</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Blue Ocean Features Section */}
-      <section id="features" className="px-4 py-20 sm:px-6 lg:px-8 bg-card/50">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Why StyleAI is Different</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We're not just another fashion app. We're building a movement.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Sparkles,
-                title: "AI-Powered Curation",
-                description: "Trained on African body types and aesthetics for recommendations that actually fit.",
-              },
-              {
-                icon: Leaf,
-                title: "Circular Fashion",
-                description: "Trade in old pieces, buy pre-owned, and track your environmental impact.",
-              },
-              {
-                icon: Users,
-                title: "Creator Economy",
-                description: "Support African designers directly. Vote on collections. Own your style.",
-              },
-              {
-                icon: Award,
-                title: "Verified Sustainability",
-                description: "Transparent supply chain. Know exactly where your clothes come from.",
-              },
-            ].map((feature, i) => {
-              const Icon = feature.icon
-              return (
-                <div key={i} className="p-6 rounded-xl border border-border bg-background hover:bg-card/50 transition">
-                  <div className="h-12 w-12 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-accent" />
+              {/* Stats bar */}
+              <div className="flex items-center gap-6 pt-2">
+                {[
+                  { value: "5,000+", label: "Happy Customers" },
+                  { value: "10,000+", label: "Styles Available" },
+                  { value: "50+", label: "Creators" },
+                ].map((stat, i) => (
+                  <div key={i} className="flex flex-col">
+                    <span className="text-lg font-bold text-[#3d2c1e] dark:text-[#c9a84c]">{stat.value}</span>
+                    <span className="text-xs text-[#6b5744] dark:text-[#a89070]">{stat.label}</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm">{feature.description}</p>
-                </div>
-              )
-            })}
+                ))}
+              </div>
+            </div>
+
+            {/* Right hero image */}
+            <div className="relative h-[60vh] lg:h-screen">
+              <Image
+                src="/images/banners/hero.png"
+                alt="Poetry In Motion — Style that moves with you"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-top"
+                priority
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <TestimonialsSection />
-
-      {/* Creator & Sustainability CTA */}
-      <section className="px-4 py-20 sm:px-6 lg:px-8">
+      {/* Categories Section */}
+      <section className="px-4 py-16 sm:px-6 lg:px-8 bg-white dark:bg-[#120d07]">
         <div className="mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Creator CTA */}
-            <div className="rounded-2xl border border-border bg-gradient-to-br from-accent/10 to-accent/5 p-8 sm:p-12">
-              <div className="flex items-center gap-3 mb-4">
-                <Palette className="h-6 w-6 text-accent" />
-                <h3 className="text-2xl font-bold text-foreground">For Creators</h3>
-              </div>
-              <p className="text-muted-foreground mb-6">
-                Design collections, get community feedback, and earn 40-50% revenue share. Your designs, your rules.
-              </p>
-              <Button asChild className="gap-2">
-                <Link href="/creators">
-                  Join Our Creator Network
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+          <div className="flex items-center justify-between mb-10">
+            <h2 className="text-2xl font-bold text-[#1a1108] dark:text-[#faf8f5] tracking-tight">Shop by Category</h2>
+            <Link href="/shop" className="text-sm text-[#c9a84c] hover:underline font-medium flex items-center gap-1">
+              View all <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+            {[
+              { label: "Clothing", img: "/images/categories/clothing.png", href: "/shop?category=clothing" },
+              { label: "Bags", img: "/images/categories/bags.png", href: "/shop?category=bags" },
+              { label: "Shoes", img: "/images/categories/shoes.png", href: "/shop?category=shoes" },
+              { label: "Accessories", img: "/images/categories/accessories.png", href: "/shop?category=accessories" },
+              { label: "New Arrivals", img: "/images/categories/new-arrivals.png", href: "/shop?category=new" },
+              { label: "Sale", img: "/images/categories/sale.png", href: "/shop?category=sale" },
+              { label: "Best Sellers", img: "/images/categories/best-seller.png", href: "/shop?category=best" },
+              { label: "Sustainable", img: "/images/categories/sustainable.png", href: "/shop?category=sustainable" },
+            ].map((cat, i) => (
+              <Link key={i} href={cat.href} className="flex flex-col items-center gap-2 group">
+                <div className="relative h-20 w-20 rounded-2xl overflow-hidden bg-[#faf8f5] dark:bg-[#1a1108] border border-[#e8e0d4] dark:border-[#2a1f14] group-hover:border-[#c9a84c] group-hover:scale-105 transition-all duration-300">
+                  <Image src={cat.img} alt={cat.label} fill sizes="80px" className="object-contain p-2" />
+                </div>
+                <span className="text-xs font-medium text-[#3d2c1e] dark:text-[#a89070] group-hover:text-[#c9a84c] transition text-center">{cat.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Sustainability CTA */}
-            <div className="rounded-2xl border border-border bg-gradient-to-br from-green-500/10 to-green-500/5 p-8 sm:p-12">
-              <div className="flex items-center gap-3 mb-4">
-                <Leaf className="h-6 w-6 text-green-600" />
-                <h3 className="text-2xl font-bold text-foreground">Circular Fashion</h3>
+      {/* Shopping Banner */}
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="relative rounded-3xl overflow-hidden h-72 sm:h-96 group">
+            <Image
+              src="/images/banners/shopping.png"
+              alt="Shop Poetry In Motion"
+              fill
+              sizes="(max-width: 768px) 100vw, 80vw"
+              className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1a1108]/70 to-transparent flex items-center px-10">
+              <div className="flex flex-col gap-4 max-w-sm">
+                <h3 className="text-3xl font-bold text-white">New Collection</h3>
+                <p className="text-[#e8d9c4] text-sm">Curated styles for every story. Discover what moves you.</p>
+                <Button asChild className="w-fit rounded-full bg-[#c9a84c] text-black hover:bg-[#b8973b]">
+                  <Link href="/shop">Shop Now <ArrowRight className="h-4 w-4 ml-1" /></Link>
+                </Button>
               </div>
-              <p className="text-muted-foreground mb-6">
-                Trade in pieces you've outgrown, buy authenticated pre-owned items, and track your environmental impact.
-              </p>
-              <Button asChild variant="outline" className="gap-2 bg-transparent">
-                <Link href="/circular">
-                  Learn About Circular Fashion
-                  <ArrowRight className="h-4 w-4" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community + Sustainability side by side */}
+      <section className="px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-6">
+          {/* Community */}
+          <div className="relative rounded-3xl overflow-hidden h-64 group">
+            <Image src="/images/banners/community.png" alt="Community" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover object-center transition-transform duration-500 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1a1108]/80 via-transparent to-transparent flex items-end p-8">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-2xl font-bold text-white">Join the Community</h3>
+                <p className="text-[#e8d9c4] text-sm">Connect with creators and trendsetters across Africa.</p>
+                <Link href="/community/live-sessions" className="text-[#c9a84c] text-sm font-medium flex items-center gap-1 mt-1">
+                  Explore <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
-              </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Sustainability */}
+          <div className="relative rounded-3xl overflow-hidden h-64 group">
+            <Image src="/images/banners/sustainability.png" alt="Sustainability" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover object-center transition-transform duration-500 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a1a08]/80 via-transparent to-transparent flex items-end p-8">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-2xl font-bold text-white">Wear Better. Choose Better.</h3>
+                <p className="text-[#d4e8d4] text-sm">Circular fashion that gives back to the planet.</p>
+                <Link href="/circular" className="text-[#7ec87e] text-sm font-medium flex items-center gap-1 mt-1">
+                  Learn more <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Referral Banner */}
+      <section className="px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="relative rounded-3xl overflow-hidden h-48 sm:h-64 group">
+            <Image src="/images/banners/referral.png" alt="Referral program" fill sizes="(max-width: 768px) 100vw, 80vw" className="object-cover object-top transition-transform duration-500 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1a1108]/60 to-transparent flex items-center px-10">
+              <div className="flex flex-col gap-3 max-w-xs">
+                <h3 className="text-2xl font-bold text-white">Refer & Earn</h3>
+                <p className="text-[#e8d9c4] text-sm">Share Poetry In Motion. Earn rewards for every friend you bring.</p>
+                <Button asChild variant="outline" className="w-fit rounded-full border-white text-white hover:bg-white hover:text-black">
+                  <Link href="/referrals">Get Your Link</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section id="quiz" className="px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="rounded-2xl border border-border bg-gradient-to-br from-accent/10 to-accent/5 p-8 sm:p-12 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Ready to Find Your Style?</h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Take our 2-minute style quiz and get personalized AI recommendations tailored just for you.
-            </p>
-            <Button size="lg" asChild className="gap-2">
-              <Link href="/quiz">
-                Start Quiz Now
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+      <section className="px-4 py-20 sm:px-6 lg:px-8 bg-[#1a1108] dark:bg-[#0a0704]">
+        <div className="mx-auto max-w-4xl text-center flex flex-col items-center gap-6">
+          <div className="relative h-16 w-16">
+            <Image src="/images/logos/logo-dark.png" alt="Poetry In Motion" fill className="object-contain" />
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#faf8f5] leading-tight">
+            Ready to find your style?
+          </h2>
+          <p className="text-lg text-[#a89070] max-w-xl">
+            Take our 2-minute style quiz and get AI-curated recommendations tailored to your vibe, body, and culture.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button size="lg" asChild className="rounded-full px-8 bg-[#c9a84c] text-black hover:bg-[#b8973b]">
+              <Link href="/quiz">Start Style Quiz <ArrowRight className="h-4 w-4 ml-2" /></Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="rounded-full px-8 border-[#a89070] text-[#a89070] hover:bg-[#2a1f14]">
+              <Link href="/auth/signup">Create Account</Link>
             </Button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card/50 px-4 py-12 sm:px-6 lg:px-8">
+      <footer className="border-t border-[#2a1f14] bg-[#120d07] px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="grid md:grid-cols-4 gap-8 mb-10">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-accent to-accent/60 flex items-center justify-center">
-                  <Sparkles className="h-5 w-5 text-accent-foreground" />
+              <div className="flex items-center gap-3 mb-4">
+                <div className="relative h-10 w-10">
+                  <Image src="/images/logos/logo-dark.png" alt="Poetry In Motion" fill className="object-contain" />
                 </div>
-                <span className="font-bold text-foreground">StyleAI</span>
+                <div className="flex flex-col leading-tight">
+                  <span className="text-sm font-bold tracking-widest text-[#c9a84c] uppercase">Poetry In Motion</span>
+                  <span className="text-xs text-[#a89070] italic">Mali Safi.</span>
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground">Your style, amplified. Supporting African creators.</p>
+              <p className="text-sm text-[#6b5744]">Style. Culture. Commerce. In Motion.</p>
             </div>
             <div>
-              <h4 className="font-semibold text-foreground mb-4">Product</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="#" className="hover:text-foreground transition">
-                    Features
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/shop" className="hover:text-foreground transition">
-                    Shop
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/creators" className="hover:text-foreground transition">
-                    For Creators
-                  </Link>
-                </li>
+              <h4 className="font-semibold text-[#faf8f5] mb-4 text-sm uppercase tracking-wider">Shop</h4>
+              <ul className="space-y-2 text-sm text-[#6b5744]">
+                {["New Arrivals", "Best Sellers", "Sale", "Sustainable"].map((item) => (
+                  <li key={item}><Link href="/shop" className="hover:text-[#c9a84c] transition">{item}</Link></li>
+                ))}
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-foreground mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="#" className="hover:text-foreground transition">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-foreground transition">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/circular" className="hover:text-foreground transition">
-                    Sustainability
-                  </Link>
-                </li>
+              <h4 className="font-semibold text-[#faf8f5] mb-4 text-sm uppercase tracking-wider">Company</h4>
+              <ul className="space-y-2 text-sm text-[#6b5744]">
+                {[
+                  { label: "For Creators", href: "/creators" },
+                  { label: "Community", href: "/community/live-sessions" },
+                  { label: "Sustainability", href: "/circular" },
+                  { label: "Referrals", href: "/referrals" },
+                ].map((item) => (
+                  <li key={item.label}><Link href={item.href} className="hover:text-[#c9a84c] transition">{item.label}</Link></li>
+                ))}
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-foreground mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="#" className="hover:text-foreground transition">
-                    Privacy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-foreground transition">
-                    Terms
-                  </Link>
-                </li>
+              <h4 className="font-semibold text-[#faf8f5] mb-4 text-sm uppercase tracking-wider">Legal</h4>
+              <ul className="space-y-2 text-sm text-[#6b5744]">
+                {[
+                  { label: "Privacy Policy", href: "/privacy" },
+                  { label: "Terms of Service", href: "/terms" },
+                  { label: "Security", href: "/security" },
+                  { label: "Support", href: "/support" },
+                ].map((item) => (
+                  <li key={item.label}><Link href={item.href} className="hover:text-[#c9a84c] transition">{item.label}</Link></li>
+                ))}
               </ul>
             </div>
           </div>
-          <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2025 StyleAI. All rights reserved.</p>
+          <div className="border-t border-[#2a1f14] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6b5744]">
+            <p>&copy; 2025 Poetry In Motion. All rights reserved.</p>
+            <p className="italic text-[#c9a84c]">Mali Safi.</p>
           </div>
         </div>
       </footer>

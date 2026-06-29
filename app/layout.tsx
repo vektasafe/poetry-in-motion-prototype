@@ -1,24 +1,21 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
-import { MobileHeader } from "@/components/mobile-header"
-import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const geist = Geist({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "StyleAI - AI-Powered Personal Fashion Styling",
-  description: "Discover AI-curated clothing that matches your unique style. Stop blending in, start standing out.",
+  title: "Poetry In Motion — Mali Safi.",
+  description: "Style. Culture. Commerce. In Motion. AI-powered fashion that understands your vibe, fits your life, and moves the world forward.",
   generator: "v0.app",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "StyleAI",
+    title: "Poetry In Motion",
   },
   formatDetection: {
     telephone: false,
@@ -33,16 +30,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#a855f7" />
+        <meta name="theme-color" content="#3d2c1e" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
       </head>
-      <body className={`font-sans antialiased`}>
+      <body className={`${geist.className} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <MobileHeader />
-          <main className="pb-20 md:pb-0">{children}</main>
-          <MobileBottomNav />
+          {children}
         </ThemeProvider>
         <Analytics />
         <script

@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Check, Sparkles } from "lucide-react"
@@ -73,6 +74,8 @@ const tiers = [
 ]
 
 export default function PricingPage() {
+  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly")
+
   return (
     <main className="min-h-screen bg-background">
       {/* Header */}
@@ -82,6 +85,20 @@ export default function PricingPage() {
           <p className="text-lg text-muted-foreground mb-8">
             Choose the plan that fits your style. Upgrade or downgrade anytime.
           </p>
+          <div className="inline-flex rounded-full border border-border bg-card p-1">
+            <button
+              onClick={() => setBilling("monthly")}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition ${billing === "monthly" ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBilling("yearly")}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition ${billing === "yearly" ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
+            >
+              Yearly
+            </button>
+          </div>
         </div>
       </section>
 
@@ -105,9 +122,12 @@ export default function PricingPage() {
                   <CardTitle>{tier.name}</CardTitle>
                   <CardDescription>{tier.description}</CardDescription>
                   <div className="mt-4">
-                    <span className="text-4xl font-bold text-foreground">${tier.price}</span>
-                    <span className="text-muted-foreground">/month</span>
+                    <span className="text-4xl font-bold text-foreground">
+                      ${billing === "yearly" ? tier.price * 10 : tier.price}
+                    </span>
+                    <span className="text-muted-foreground">/{billing === "yearly" ? "year" : "month"}</span>
                   </div>
+                  {billing === "yearly" && <p className="text-sm text-accent mt-2">Save two months on annual billing</p>}
                 </CardHeader>
 
                 <CardContent className="flex-1 flex flex-col">
@@ -125,7 +145,7 @@ export default function PricingPage() {
                     className={tier.highlighted ? "" : "variant-outline"}
                     variant={tier.highlighted ? "default" : "outline"}
                   >
-                    <Link href={`/subscribe?tier=${tier.name.toLowerCase()}`}>{tier.cta}</Link>
+                    <Link href={`/subscribe?tier=${tier.name.toLowerCase()}&billing=${billing}`}>{tier.cta}</Link>
                   </Button>
                 </CardContent>
               </Card>
