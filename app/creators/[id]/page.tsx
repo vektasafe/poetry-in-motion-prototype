@@ -100,9 +100,18 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ id: s
 
         {/* Products */}
         <div>
-          <h2 className="text-xl font-bold text-foreground mb-4">
-            Products by {creator.name} <span className="text-muted-foreground font-normal text-base">({creatorProducts.length})</span>
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">
+              Products by {creator.name} <span className="text-muted-foreground font-normal text-base">({creatorProducts.length})</span>
+            </h2>
+            {creatorProducts.length > 0 && (
+              <Link href={`/shop?creator=${creator.id}`}>
+                <Button variant="outline" size="sm" className="bg-transparent">
+                  Shop All
+                </Button>
+              </Link>
+            )}
+          </div>
 
           {creatorProducts.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
