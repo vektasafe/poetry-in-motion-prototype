@@ -26,7 +26,7 @@ export interface Product {
   sizes?: string[]
   description?: string
   aiInsight?: string
-  creator?: string
+  creatorId?: string  // references Creator.id in lib/creators.ts
   inStock: boolean
 }
 
@@ -131,7 +131,7 @@ export const products: Product[] = [
     rating: 4.7,
     reviews: 41,
     category: "Outerwear",
-    creator: "Zawadi Designs",
+    creatorId: "zawadi-designs",
     colors: ["Beige", "Olive"],
     sizes: ["S", "M", "L", "XL"],
     description: "A fusion of African print detailing and modern linen tailoring, hand-finished by Zawadi Designs.",
@@ -148,7 +148,7 @@ export const products: Product[] = [
     rating: 4.9,
     reviews: 73,
     category: "Accessories",
-    creator: "Mama Pima Studios",
+    creatorId: "mama-pima-studios",
     colors: ["Natural", "Black"],
     sizes: ["One Size"],
     description: "Handwoven from sustainable sisal fibre by artisans at Mama Pima Studios.",
@@ -165,7 +165,7 @@ export const products: Product[] = [
     rating: 4.5,
     reviews: 28,
     category: "Shoes",
-    creator: "Jua Kali Craft",
+    creatorId: "jua-kali-craft",
     colors: ["Brown", "Tan"],
     sizes: ["38", "39", "40", "41", "42", "43"],
     description: "Hand-beaded leather sandals crafted by Jua Kali Craft artisans using traditional techniques.",

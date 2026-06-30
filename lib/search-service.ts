@@ -1,4 +1,5 @@
-import { products, Product } from "@/lib/products"
+import { products, getProductById, Product } from "@/lib/products"
+import { callSnapFind, isSnapFindConfigured } from "@/lib/snapfind-adapter"
 
 export interface SearchResult extends Product {
   matchType: "text" | "image"
@@ -7,11 +8,30 @@ export interface SearchResult extends Product {
 
 /**
  * Text-based product search.
- * Currently does local name/category matching against the shared product catalog.
- * Future: swap internals to call a real search API/index without changing the signature.
+ *
+ * If SnapFind is configured, this calls SnapFind's text-to-image search
+ * (semantic matching, e.g. "red ankara dress" finds visually/conceptually
+ * similar items, not just keyword matches) and maps results back to the
+ * local product catalog by itemId.
+ *
+ * If SnapFind is not configured (current default), falls back to a simple
+ * local name/category substring match against lib/products.ts.
  */
 export async function searchByText(query: string): Promise<SearchResult[]> {
   if (!query.trim()) return []
+
+  if (isSnapFindConfigured()) {
+    const matches = await callSnapFind({ mode: "text", query, k: 20 })
+    return matches
+      .map((m) => {
+        const product = getProductById(m.itemId)
+        if (!product) return null
+        return { ...product, matchType: "text" as const, matchConfidence: m.score }
+      })
+      .filter((r): r is SearchResult => r !== null)
+  }
+
+  // Fallback: local substring match
   const q = query.toLowerCase()
   return products
     .filter((p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
@@ -20,12 +40,26 @@ export async function searchByText(query: string): Promise<SearchResult[]> {
 
 /**
  * Image-based product search (reverse image / visual search).
- * Placeholder until SnapFind integration is wired in.
- * Future: send `imageFile` to SnapFind's API, map response into SearchResult[]
- * with real matchConfidence scores.
+ *
+ * If SnapFind is configured, sends the uploaded image to SnapFind's
+ * image-to-image search and maps results back to the local catalog.
+ *
+ * If SnapFind is not configured, returns an empty array — there is no
+ * local fallback for image search, since that capability does not exist
+ * without SnapFind. The UI should show a "coming soon" state in this case.
  */
 export async function searchByImage(imageFile: File): Promise<SearchResult[]> {
-  // TODO: integrate SnapFind here.
-  console.warn("searchByImage called but SnapFind is not yet integrated:", imageFile.name)
-  return []
+  if (!isSnapFindConfigured()) {
+    console.warn("searchByImage called but SnapFind is not yet configured:", imageFile.name)
+    return []
+  }
+
+  const matches = await callSnapFind({ mode: "image", imageFile, k: 20 })
+  return matches
+    .map((m) => {
+      const product = getProductById(m.itemId)
+      if (!product) return null
+      return { ...product, matchType: "image" as const, matchConfidence: m.score }
+    })
+    .filter((r): r is SearchResult => r !== null)
 }

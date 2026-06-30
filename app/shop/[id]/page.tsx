@@ -3,6 +3,7 @@
 import { use, useState } from "react"
 import { useCart } from "@/lib/cart-context"
 import { getProductById, products } from "@/lib/products"
+import { getCreatorById } from "@/lib/creators"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Heart, ShoppingBag, Sparkles, Star, Truck, RotateCcw, Shield, ShoppingCart } from "lucide-react"
 import Link from "next/link"
@@ -18,6 +19,7 @@ const colorMap: Record<string, string> = {
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const product = getProductById(id) || products[0]
+  const creator = product.creatorId ? getCreatorById(product.creatorId) : undefined
   const { addItem, totalItems } = useCart()
 
   const colors = product.colors ?? ["Default"]
@@ -99,8 +101,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           {/* Details */}
           <div className="space-y-6">
             <div>
-              {product.creator && (
-                <p className="text-sm text-accent font-medium mb-1">{product.creator}</p>
+              {creator && (
+                <Link href={`/creators/${creator.id}`} className="inline-flex items-center gap-2 mb-1 group">
+                  <img src={creator.avatar} alt={creator.name} className="h-5 w-5 rounded-full object-cover" />
+                  <span className="text-sm text-accent font-medium group-hover:underline">{creator.name}</span>
+                  {creator.verified && (
+                    <span className="text-xs text-muted-foreground">✓ Verified</span>
+                  )}
+                </Link>
               )}
               <p className="text-sm text-muted-foreground mb-1">{product.category}</p>
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">{product.name}</h1>
