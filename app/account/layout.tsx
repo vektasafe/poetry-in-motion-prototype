@@ -1,5 +1,8 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { User, ShoppingBag, Heart, MapPin, Settings, LogOut, ChevronRight } from "lucide-react"
 import { NavLogo } from "@/components/nav-logo"
 
@@ -12,6 +15,14 @@ const navItems = [
 ]
 
 export default function AccountLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+
+  const handleSignOut = () => {
+    localStorage.removeItem("pim-profile")
+    localStorage.removeItem("pim-settings")
+    router.push("/")
+  }
+
   return (
     <div className="min-h-screen bg-[#faf8f5] dark:bg-[#0e0a06]">
 
@@ -66,7 +77,10 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                   </Link>
                 )
               })}
-              <button className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-red-50 dark:hover:bg-red-950/20 transition group border-t border-[#e8e0d4] dark:border-[#2a1f14]">
+              <button
+                onClick={handleSignOut}
+                className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-red-50 dark:hover:bg-red-950/20 transition group border-t border-[#e8e0d4] dark:border-[#2a1f14]"
+              >
                 <LogOut className="h-4 w-4 text-red-400 group-hover:text-red-500 transition" />
                 <span className="text-sm text-red-400 group-hover:text-red-500 transition">Sign Out</span>
               </button>
