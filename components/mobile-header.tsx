@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Menu, X, Search, ShoppingCart, User } from "lucide-react"
+import { Menu, X, Search, Camera, ShoppingCart, User } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
 import { useCart } from "@/lib/cart-context"
 import { NavLogo } from "./nav-logo"
@@ -19,8 +19,12 @@ export function MobileHeader() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-1">
+            <ThemeToggle />
             <Link href="/search" className="p-2 hover:bg-muted rounded-lg transition-colors">
               <Search className="w-5 h-5" />
+            </Link>
+            <Link href="/search?mode=image" title="Search by image" className="p-2 hover:bg-muted rounded-lg transition-colors">
+              <Camera className="w-5 h-5" />
             </Link>
             <Link href="/cart" className="p-2 hover:bg-muted rounded-lg transition-colors relative">
               <ShoppingCart className="w-5 h-5" />

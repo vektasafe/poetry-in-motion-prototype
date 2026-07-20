@@ -77,7 +77,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 min-h-[85vh] items-center gap-8">
+          <div className="grid md:grid-cols-2 min-h-[85vh] items-center gap-8">
             {/* Left content */}
             <div className="flex flex-col gap-6 py-16 lg:py-0">
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#c9a84c]/40 bg-[#c9a84c]/10 px-4 py-2">
@@ -108,6 +108,18 @@ export default function Home() {
                     Discover Your Style
                   </Link>
                 </Button>
+              </div>
+
+              {/* Hero image — mobile only */}
+              <div className="md:hidden relative h-[45vh] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/banners/hero.png"
+                  alt="Poetry In Motion — Style that moves with you"
+                  fill
+                  sizes="100vw"
+                  className="object-cover object-right-top"
+                  priority
+                />
               </div>
 
               {/* Mini feature icons */}
@@ -144,13 +156,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right hero image */}
-            <div className="relative h-[60vh] lg:h-screen">
+            {/* Right hero image — desktop/tablet */}
+            <div className="hidden md:block relative h-[60vh] md:h-screen">
               <Image
                 src="/images/banners/hero.png"
                 alt="Poetry In Motion — Style that moves with you"
                 fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover object-right-top"
                 priority
               />
