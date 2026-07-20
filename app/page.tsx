@@ -151,7 +151,7 @@ export default function Home() {
                 alt="Poetry In Motion — Style that moves with you"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-top"
+                className="object-cover object-right-top"
                 priority
               />
             </div>
