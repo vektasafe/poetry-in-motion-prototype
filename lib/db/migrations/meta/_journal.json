@@ -8,6 +8,20 @@
       "when": 1782898214373,
       "tag": "0000_oval_iron_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784678687269,
+      "tag": "0001_condemned_spot",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784679201137,
+      "tag": "0002_furry_ozymandias",
+      "breakpoints": true
     }
   ]
 }
